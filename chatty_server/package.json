@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/jgrimshaw/Chatty-App#readme",
   "dependencies": {
-    "express": "4.17.1",
-    "ws": "7.0.0"
+    "express": "^4.16.4",
+    "uuid": "^3.3.2",
+    "ws": "^6.2.0"
   }
 }

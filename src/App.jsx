@@ -11,22 +11,35 @@ class App extends Component {
     this.state = {
       loading: true,
       currentUser: {name: ''},
-      messageData: messages,
-      id: "01"
+      messageData: [],
+      usersOnLine: 0,
     };
+    this.SendMessage = this.SendMessage.bind(this);
+    this.SendNotification = this.SendNotification(this)
   }
 
 componentDidMount() {
+  this.socket = new WebSocket("ws://localhost:3001");
+  this.socket.onopen = function(event){
+
+  }
+
+  this.socket.onmessage = (message) => {
+    let newMessageData = this.state.messageData;
+    newMessageData.push(JSON.parse(message.data));
+    this.setState((prevState) => ({messageData: newMessageData}));
+  };
+
     setTimeout( () => {
       this.setState({loading:false});
     }, 2000);
 
-    setTimeout(() => {
-      const newMessage = {id: 10, username: "Michelle", content: "Hello there!"};
-      const messages = this.state.messageData.concat(newMessage);
-      this.setState({messageData: messages});
-    }, 4000);
-  }
+  //   setTimeout(() => {
+  //     const newMessage = {id: 10, username: "Michelle", content: "Hello there!"};
+  //     const messages = this.state.messageData.concat(newMessage);
+  //     this.setState({messageData: messages});
+  //   }, 4000);
+  // }
 
 MessageType (text, user){
   const id = randomId();
@@ -40,6 +53,21 @@ MessageType (text, user){
   allMessages.push(newMessage);
   this.setState({messageData: allMessages})
 }
+
+SendMessage(text, user) {
+  let newMessage = {
+    type: "incomingMessage",
+    content: text,
+    username: user
+  }
+  this.socket.send(JSON.stringify(newMessage));
+}
+
+//  SendNotification (newuser){
+//   let newNotification =
+// }
+
+
   render() {
     return (
       <div>
@@ -55,50 +83,50 @@ MessageType (text, user){
 export default App;
 
 function randomId(){
-  return Math.floor(Math.random() * 100)
+  return Math.floor(Math.random() * 1000)
 }
 
 
-let messages = [
-  {
-    type: "incomingMessage",
-    content: "I won't be impressed with technology until I can download food.",
-    username: "Anonymous1",
-    id: 1
-  },
-  {
-    type: "incomingNotification",
-    content: "Anonymous1 changed their name to nomnom",
-    id: 2
-  },
-  {
-    type: "incomingMessage",
-    content: "I wouldn't want to download Kraft Dinner. I'd be scared of cheese packet loss.",
-    username: "Anonymous2",
-    id: 3
-  },
-  {
-    type: "incomingMessage",
-    content: "...",
-    username: "nomnom",
-    id: 4
-  },
-  {
-    type: "incomingMessage",
-    content: "I'd love to download a fried egg, but I'm afraid encryption would scramble it",
-    username: "Anonymous2",
-    id: 5
-  },
-  {
-    type: "incomingMessage",
-    content: "This isn't funny. You're not funny",
-    username: "nomnom",
-    id: 6
-  },
-  {
-    type: "incomingNotification",
-    content: "Anonymous2 changed their name to NotFunny",
-    id: 7
-  },
-]
+// let messages = [
+//   {
+//     type: "incomingMessage",
+//     content: "I won't be impressed with technology until I can download food.",
+//     username: "Anonymous1",
+//     id: 1
+//   },
+//   {
+//     type: "incomingNotification",
+//     content: "Anonymous1 changed their name to nomnom",
+//     id: 2
+//   },
+//   {
+//     type: "incomingMessage",
+//     content: "I wouldn't want to download Kraft Dinner. I'd be scared of cheese packet loss.",
+//     username: "Anonymous2",
+//     id: 3
+//   },
+//   {
+//     type: "incomingMessage",
+//     content: "...",
+//     username: "nomnom",
+//     id: 4
+//   },
+//   {
+//     type: "incomingMessage",
+//     content: "I'd love to download a fried egg, but I'm afraid encryption would scramble it",
+//     username: "Anonymous2",
+//     id: 5
+//   },
+//   {
+//     type: "incomingMessage",
+//     content: "This isn't funny. You're not funny",
+//     username: "nomnom",
+//     id: 6
+//   },
+//   {
+//     type: "incomingNotification",
+//     content: "Anonymous2 changed their name to NotFunny",
+//     id: 7
+//   },
+// ]
 
