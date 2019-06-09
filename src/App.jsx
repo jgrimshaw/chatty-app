@@ -54,7 +54,9 @@ MessageType (text, user){
 
 export default App;
 
-
+function randomId(){
+  return Math.floor(Math.random() * 100)
+}
 
 
 let messages = [

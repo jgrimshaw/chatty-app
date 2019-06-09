@@ -11,14 +11,8 @@ class ChatBar extends Component{
     const keyPress = (event) => {
       if(event.keyCode === 13){
         let user = (this.props.currentUser.name ? this.props.currentUser.name : "anonymous");
-        this.props.SendMessage(event.target.value, user);
+        this.props.MessageType(event.target.value, user);
         event.target.value = "";
-      }
-    };
-
-    const keyPress = (event) => {
-      if(event.keyCode === 13){
-        this.props.SendNotification(event.target.value)
       }
     };
 
