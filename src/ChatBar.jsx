@@ -1,7 +1,7 @@
 
 import React, {Component} from "react";
 
-class Chatbar extends Component {
+class ChatBar extends Component {
   constructor() {
     super();
   }
@@ -28,6 +28,6 @@ class Chatbar extends Component {
   }
 }
 
-export default Chatbar;
+export default ChatBar;
 
 
