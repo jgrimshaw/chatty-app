@@ -6,7 +6,7 @@
   },
   {
     "type": "incomingNotification",
-    "content": "Anonymous1 changed their name to nomnom",
+    "content": "Anonymous1 changed their name to nomnom"
   },
   {
     "type": "incomingMessage",
@@ -30,6 +30,6 @@
   },
   {
     "type": "incomingNotification",
-    "content": "Anonymous2 changed their name to NotFunny",
-  },
+    "content": "Anonymous2 changed their name to NotFunny"
+  }
 ]
