@@ -1,36 +1,33 @@
 
-import React, {Component} from 'react';
+import React, {Component} from "react";
 
-class ChatBar extends Component{
-  constructor(){
+class Chatbar extends Component {
+  constructor() {
     super();
   }
-
-  render(){
-
-    const keyPressContent = (event) => {
-      if(event.keyCode === 13){
+  render() {
+    const keyPressText = (event) => {
+      if(event.keyCode === 13) {
         let user = (this.props.currentUser.name ? this.props.currentUser.name : "anonymous");
-        this.props.MessageType(event.target.value, user);
+        this.props.SendMessage(event.target.value, user);
         event.target.value = "";
       }
     };
-
     const keyPressUser = (event) => {
-      if(event.keyCode === 13){
-        this.props.UserType(event.target.value);
+      if(event.keyCode === 13) {
+        this.props.SendNotification(event.target.value);
       }
     };
 
     return (
       <footer className="chatbar">
-        <input className="chatbar-username" onKeyUp={keyPressUser} placeholder="Your Name (Optional)" defaultValue={this.props.currentUser.name ? this.props.currentUser.name : "anonymous"} />
-        <input className="chatbar-message" onKeyUp={keyPressContent} name="message" placeholder="Type a message and hit ENTER" />
+        <input className="chatbar-username" placeholder="Your Name (Optional)" onKeyUp={keyPressUser} />
+        <input className="chatbar-message" placeholder="Type a message and hit ENTER" onKeyUp={keyPressText} />
       </footer>
-    )
+      )
   }
 }
 
-export default ChatBar;
+export default Chatbar;
 
 

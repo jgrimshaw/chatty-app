@@ -1,19 +1,23 @@
+
 import React, {Component} from 'react';
-import Message from './Message.jsx';
+import {Message, Notification, Picture} from "./Message.jsx";
 
-
-export default class MessageList extends Component {
-  render(){
+function MessageList (props) {
+    const messages = props.messageData.map((message) => {
+      //Checks whether message type is Notification, Picture or message. Default is message
+      switch (message.type) {
+        case 'postNotification' :
+          return (<Notification key={message.id} message={message}/>);
+        case 'postPicture' :
+          return (<Picture key={message.id} message={message}/>);
+        default :
+          return (<Message key={message.id} username={message.username} content={message.content}/>);
+      }
+    });
     return (
-      <main className="messages"> {this.props.messages.map((message) => {
-        return
-        <div>
-        <Message message={message} />
-        <Notification />
-        </div>
-      })}
-      </main>
-    );
-  }
+        <main className="messages">
+          {messages}
+        </main>)
 }
 
+export default MessageList;

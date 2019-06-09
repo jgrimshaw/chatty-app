@@ -3,7 +3,7 @@ import ChatBar from './ChatBar.jsx';
 import NavBar from './NavBar.jsx';
 import MessageList from "./MessageList.jsx";
 
-const socket = new WebSocket("ws://localhost:3001");
+
 
 class App extends Component {
     constructor(props) {
@@ -12,7 +12,7 @@ class App extends Component {
       loading: true,
       currentUser: {name: ''},
       messageData: [],
-      usersOnLine: 0,
+      usersOnline: 0,
     };
     this.SendMessage = this.SendMessage.bind(this);
     this.SendNotification = this.SendNotification(this)
@@ -24,35 +24,33 @@ componentDidMount() {
 
   }
 
-  this.socket.onmessage = (message) => {
-    let newMessageData = this.state.messageData;
-    newMessageData.push(JSON.parse(message.data));
-    this.setState((prevState) => ({messageData: newMessageData}));
-  };
+this.socket.onmessage = (message) => {
+      const newMessage = JSON.parse(message.data);
+      switch (newMessage.type) {
+
+        case 'numUsers' :
+          this.setState({usersOnline: newMessage.users});
+          break;
+        case 'postMessage' :
+        case 'postNotification' :
+        case 'postPicture' :
+          let newMessageData = this.state.messageData;
+          newMessageData.push(newMessage);
+          this.setState((prevState) => ({messageData: newMessageData}));
+          break;
+
+        default :
+          console.log('Should not be here');
+          break;
+        }
+      };
 
     setTimeout( () => {
       this.setState({loading:false});
     }, 2000);
 
-  //   setTimeout(() => {
-  //     const newMessage = {id: 10, username: "Michelle", content: "Hello there!"};
-  //     const messages = this.state.messageData.concat(newMessage);
-  //     this.setState({messageData: messages});
-  //   }, 4000);
-  // }
-
-MessageType (text, user){
-  const id = randomId();
-  let newMessage = {
-    type: "incomingMessage",
-    content: text,
-    username: user,
-    id
   }
-  let allMessages = this.state.messageData;
-  allMessages.push(newMessage);
-  this.setState({messageData: allMessages})
-}
+
 
 SendMessage(text, user) {
   let newMessage = {
@@ -63,15 +61,21 @@ SendMessage(text, user) {
   this.socket.send(JSON.stringify(newMessage));
 }
 
-//  SendNotification (newuser){
-//   let newNotification =
-// }
+ SendNotification (newUser){
+  let newNotification = {
+    type: "incomingNotification",
+    content: newUser,
+    username: this.state.currentUser.name
+  }
+  this.setState({currentUser: {name: newUser}});
+  this.socket.send(JSON.stringify(newNotification));
+}
 
 
   render() {
     return (
       <div>
-        <NavBar />
+        <NavBar usersOnline={this.state.usersOnline}/>
         <MessageList messages={this.state.messageData} currentUser={this.state.currentUser.name} />
         <ChatBar currentUser={this.state.currentUser} MessageType={this.MessageType} />
       </div>
@@ -79,54 +83,9 @@ SendMessage(text, user) {
   }
 };
 
-
-export default App;
-
 function randomId(){
   return Math.floor(Math.random() * 1000)
 }
 
-
-// let messages = [
-//   {
-//     type: "incomingMessage",
-//     content: "I won't be impressed with technology until I can download food.",
-//     username: "Anonymous1",
-//     id: 1
-//   },
-//   {
-//     type: "incomingNotification",
-//     content: "Anonymous1 changed their name to nomnom",
-//     id: 2
-//   },
-//   {
-//     type: "incomingMessage",
-//     content: "I wouldn't want to download Kraft Dinner. I'd be scared of cheese packet loss.",
-//     username: "Anonymous2",
-//     id: 3
-//   },
-//   {
-//     type: "incomingMessage",
-//     content: "...",
-//     username: "nomnom",
-//     id: 4
-//   },
-//   {
-//     type: "incomingMessage",
-//     content: "I'd love to download a fried egg, but I'm afraid encryption would scramble it",
-//     username: "Anonymous2",
-//     id: 5
-//   },
-//   {
-//     type: "incomingMessage",
-//     content: "This isn't funny. You're not funny",
-//     username: "nomnom",
-//     id: 6
-//   },
-//   {
-//     type: "incomingNotification",
-//     content: "Anonymous2 changed their name to NotFunny",
-//     id: 7
-//   },
-// ]
+export default App;
 
