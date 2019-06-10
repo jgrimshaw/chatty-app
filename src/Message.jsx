@@ -16,14 +16,5 @@ export function Notification (props) {
         </div>)
 }
 
-export function Picture (props) {
-    return (
-      <div className="message">
-        <span className="message-username">{props.message.username}</span>
-        <span className="message-content">
-            <img src={props.message.content} style={{width: '200px'}} alt={props.message.content}/>
-        </span>
-      </div>)
-}
 
 
