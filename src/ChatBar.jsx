@@ -5,8 +5,9 @@ class ChatBar extends Component {
   constructor() {
     super();
   }
+
   render() {
-    const keyPressText = (event) => {
+    const keyPressMessage = (event) => {
       if(event.keyCode === 13) {
         let user = (this.props.currentUser.name ? this.props.currentUser.name : "anonymous");
         this.props.SendMessage(event.target.value, user);
@@ -21,10 +22,10 @@ class ChatBar extends Component {
 
     return (
       <footer className="chatbar">
-        <input className="chatbar-username" placeholder="Your Name (Optional)" onKeyUp={keyPressUser} />
-        <input className="chatbar-message" placeholder="Type a message and hit ENTER" onKeyUp={keyPressText} />
+        <input className="chatbar-username" onKeyUp={keyPressUser} placeholder="Your Name (Optional)" />
+        <input className="chatbar-message" onKeyUp={keyPressMessage} placeholder="Type a message and hit ENTER"  />
       </footer>
-      )
+    );
   }
 }
 
