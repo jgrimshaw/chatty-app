@@ -18,7 +18,6 @@ class App extends Component {
     this.SendNotification = this.SendNotification.bind(this);
   }
 
-
   componentDidMount () {
     this.socket = new WebSocket("ws://localhost:3001");
     this.socket.onopen = function(event) {

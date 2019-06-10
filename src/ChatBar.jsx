@@ -5,7 +5,6 @@ class ChatBar extends Component {
   constructor() {
     super();
   }
-
   render() {
     const keyPressMessage = (event) => {
       if(event.keyCode === 13) {
@@ -30,5 +29,4 @@ class ChatBar extends Component {
 }
 
 export default ChatBar;
-
 

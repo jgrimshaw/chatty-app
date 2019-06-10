@@ -12,8 +12,6 @@ Single page app built with ReactJS. This app communicates with a server using We
 
 ![image](https://github.com/jgrimshaw/Chatty-App/blob/master/docs/Screen%20Shot%202019-06-09%20at%205.34.37%20PM.png?raw=true)
 
-
-
 ### Dependencies
 
 #### Client
